@@ -12,8 +12,8 @@ public class PlayerGrabController : MonoBehaviour
     public bool holdingStaff = false;
 
     private BaseStaff currentStaff;
-    //grabs the staff im looking at if i dont have one, if one is currently held, drops it instead.
 
+    //grabs the staff im looking at if i dont have one, if one is currently held, drops it instead.
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))
