@@ -7,6 +7,6 @@ public class PoisonStaff : BaseStaff
 {
     public override void CastSpell()
     {
-        // spell for ray of sickness 
+        // will update when i work out the spell vfx/effect
     }
 }

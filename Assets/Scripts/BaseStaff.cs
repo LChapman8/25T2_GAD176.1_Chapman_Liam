@@ -14,12 +14,14 @@ namespace SeaWizard.Weapons
         [SerializeField] protected float projectileSpeed = 20f;
 
         protected bool isOnCooldown = false;
+        private PlayerGrabController grabStaffController;
 
-        private void Update()
+        private void Start()
         {
-            if (Input.GetMouseButtonDown(0) && !isOnCooldown)
+            grabStaffController = FindAnyObjectByType<PlayerGrabController>();
+            if (grabStaffController == null)
             {
-                CastSpell();
+                Debug.LogWarning("PlayerGrabController not found in scene.");
             }
         }
 
