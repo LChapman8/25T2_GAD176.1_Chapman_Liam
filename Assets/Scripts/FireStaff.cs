@@ -1,42 +1,43 @@
-using SeaWizard.Weapons;
 using UnityEngine;
 
-public class FireStaff : BaseStaff
+namespace SeaWizard.Weapons
 {
-    private ParticleSystem fireVFX;
-    private bool isCasting = false;
-
-    private void Start()
+    public class FireStaff : BaseStaff
     {
-        fireVFX = castPoint.GetComponentInChildren<ParticleSystem>(true);
-        if (fireVFX != null)
-            fireVFX.Stop();
-    }
+        private ParticleSystem fireVFX;
+        private bool isCasting = false;
 
-    private void Update()
-    {
-        if (!CanCast()) return;
-
-        if (Input.GetMouseButton(0))
+        // sets the cast point to my VFX for flame thrower in the scene 
+        protected override void Start()
         {
-            if (!isCasting)
-            {
-                isCasting = true;
-                if (fireVFX != null)
-                    fireVFX.Play();
-            }
-        }
-
-        if (Input.GetMouseButtonUp(0))
-        {
-            isCasting = false;
+            base.Start();
+            fireVFX = castPoint.GetComponentInChildren<ParticleSystem>(true);
             if (fireVFX != null)
                 fireVFX.Stop();
         }
-    }
 
-    public override void CastSpell()
-    {
-        // not currently needed
+        // function for starting casting by playing the particle effect
+        public override void StartCasting()
+        {
+            if (CanCast() && fireVFX != null && !isCasting)
+            {
+                fireVFX.Play();
+                isCasting = true;
+            }
+        }
+        // function to stop playing the casting particle effect 
+        public override void StopCasting()
+        {
+            if (fireVFX != null && isCasting)
+            {
+                fireVFX.Stop();
+                isCasting = false;
+            }
+        }
+
+        public override void CastSpell()
+        {
+            // fireStaff doesn't use burst casting so not needed.
+        }
     }
 }

@@ -1,11 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
 
 namespace SeaWizard.Weapons
 {
-
     public abstract class BaseStaff : MonoBehaviour
     {
         [SerializeField] protected float cooldownTime = 2f;
@@ -14,17 +10,13 @@ namespace SeaWizard.Weapons
         [SerializeField] protected float projectileSpeed = 20f;
 
         protected bool isOnCooldown = false;
-        private PlayerGrabController grabStaffController;
 
-        private void Start()
+        protected virtual void Start()
         {
-            grabStaffController = FindAnyObjectByType<PlayerGrabController>();
-            if (grabStaffController == null)
-            {
-                Debug.LogWarning("PlayerGrabController not found in scene.");
-            }
+            // optional for my derived classes
         }
 
+        // function for casting
         protected bool CanCast()
         {
             return !isOnCooldown;
@@ -36,11 +28,16 @@ namespace SeaWizard.Weapons
             Invoke(nameof(ResetCooldown), cooldownTime);
         }
 
+        //function for resetting the cooldown timer
         private void ResetCooldown()
         {
-            isOnCooldown= false;
+            isOnCooldown = false;
         }
 
         public abstract void CastSpell();
+
+        // optional overrides for my continuous effect spells
+        public virtual void StartCasting() { }
+        public virtual void StopCasting() { }
     }
 }
