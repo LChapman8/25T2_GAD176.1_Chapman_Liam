@@ -8,7 +8,7 @@ public class PoisonStaff : BaseStaff
     private ParticleSystem poisonVFX;
     private bool isCasting = false;
 
-    // sets the cast point to my VFX for flame thrower in the scene 
+    // sets the cast point to my VFX for poison cloud in the scene 
     protected override void Start()
     {
         base.Start();
@@ -38,6 +38,6 @@ public class PoisonStaff : BaseStaff
 
     public override void CastSpell()
     {
-        // fireStaff doesn't use burst casting so not needed.
+        // poison staff doesn't use burst casting so not needed.
     }
 }
