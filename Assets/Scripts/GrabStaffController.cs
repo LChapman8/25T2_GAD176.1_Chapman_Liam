@@ -26,11 +26,11 @@ public class PlayerGrabController : MonoBehaviour
 
         if (holdingStaff && currentStaff != null)
         {
-            // single click logic for ice staff bolts
+            // single click logic for ice staff bolts / Poison cloud
             if (Input.GetMouseButtonDown(0))
                 currentStaff.CastSpell();
 
-            // hold down casting for continual casting (fire/poison spells)
+            // hold down casting for continual casting (flame thrower spell)
             if (Input.GetMouseButton(0))
                 currentStaff.StartCasting();
 
