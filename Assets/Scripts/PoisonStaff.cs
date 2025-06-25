@@ -5,39 +5,23 @@ using SeaWizard.Weapons;
 
 public class PoisonStaff : BaseStaff
 {
-    private ParticleSystem poisonVFX;
-    private bool isCasting = false;
-
-    // sets the cast point to my VFX for poison cloud in the scene 
-    protected override void Start()
-    {
-        base.Start();
-        poisonVFX = castPoint.GetComponentInChildren<ParticleSystem>(true);
-        if (poisonVFX != null)
-            poisonVFX.Stop();
-    }
-
-    // function for starting casting by playing the particle effect
-    public override void StartCasting()
-    {
-        if (CanCast() && poisonVFX != null && !isCasting)
-        {
-            poisonVFX.Play();
-            isCasting = true;
-        }
-    }
-    // function to stop playing the casting particle effect 
-    public override void StopCasting()
-    {
-        if (poisonVFX != null && isCasting)
-        {
-            poisonVFX.Stop();
-            isCasting = false;
-        }
-    }
-
     public override void CastSpell()
     {
-        // poison staff doesn't use burst casting so not needed.
+        if (!CanCast()) return;
+
+        Camera cam = Camera.main;
+        Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+
+        Vector3 direction = ray.direction;
+
+        GameObject iceProjectile = Instantiate(projectilePrefab, castPoint.position, Quaternion.LookRotation(direction));
+
+        Rigidbody rb = iceProjectile.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.velocity = direction * projectileSpeed;
+        }
+
+        StartCooldown();
     }
 }
