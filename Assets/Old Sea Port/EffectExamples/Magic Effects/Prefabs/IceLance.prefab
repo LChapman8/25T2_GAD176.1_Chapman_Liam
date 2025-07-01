@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 1292229952534652}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.44100004, y: 2.56, z: 0}
+  m_LocalPosition: {x: 69, y: 2.56, z: 0}
   m_LocalScale: {x: 0.04016593, y: 0.04016593, z: 0.04016593}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4833,6 +4833,7 @@ GameObject:
   - component: {fileID: 198433943929519872}
   - component: {fileID: 199651061282982800}
   - component: {fileID: -7810228057871024298}
+  - component: {fileID: 2906254402591027434}
   m_Layer: 0
   m_Name: IceLance
   m_TagString: Untagged
@@ -9694,6 +9695,29 @@ MonoBehaviour:
   appliesSlow: 1
   slowFactor: 0.5
   slowDuration: 2
+--- !u!136 &2906254402591027434
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1820680284854294}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 47.99
+  m_Height: 8.96
+  m_Direction: 1
+  m_Center: {x: -0.016042713, y: 0.0009715557, z: 15.199989}
 --- !u!1 &1877868098342330
 GameObject:
   m_ObjectHideFlags: 0
