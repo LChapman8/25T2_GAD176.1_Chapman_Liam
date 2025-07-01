@@ -1,27 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using SeaWizard.Weapons;
 
-public class PoisonStaff : BaseStaff
+namespace SeaWizard.Weapons
 {
-    public override void CastSpell()
+    public class PoisonStaff : BaseStaff
     {
-        if (!CanCast()) return;
 
-        Camera cam = Camera.main;
-        Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-
-        Vector3 direction = ray.direction;
-
-        GameObject iceProjectile = Instantiate(projectilePrefab, castPoint.position, Quaternion.LookRotation(direction));
-
-        Rigidbody rb = iceProjectile.GetComponent<Rigidbody>();
-        if (rb != null)
+        public override void CastSpell()
         {
-            rb.velocity = direction * projectileSpeed;
-        }
+            if (!CanCast()) return;
 
-        StartCooldown();
+            Camera cam = Camera.main;
+            Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+            Vector3 direction = ray.direction;
+
+            Instantiate(projectilePrefab, castPoint.position, Quaternion.LookRotation(direction));
+
+            StartCooldown();
+        }
     }
 }

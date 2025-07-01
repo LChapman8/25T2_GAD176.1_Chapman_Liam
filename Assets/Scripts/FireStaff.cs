@@ -7,25 +7,39 @@ namespace SeaWizard.Weapons
         private ParticleSystem fireVFX;
         private bool isCasting = false;
 
-        // sets the cast point to my VFX for flame thrower in the scene 
+        public float manaCostPerSecond = 10f;
+
         protected override void Start()
         {
             base.Start();
             fireVFX = castPoint.GetComponentInChildren<ParticleSystem>(true);
-            if (fireVFX != null)
-                fireVFX.Stop();
+            if (fireVFX != null) fireVFX.Stop();
+            playerStats = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerStats>();
         }
 
-        // function for starting casting by playing the particle effect
         public override void StartCasting()
         {
-            if (CanCast() && fireVFX != null && !isCasting)
+            if (fireVFX != null && !isCasting && playerStats != null)
             {
                 fireVFX.Play();
                 isCasting = true;
+                StartCoroutine(DrainManaWhileCasting());
             }
         }
-        // function to stop playing the casting particle effect 
+
+        private System.Collections.IEnumerator DrainManaWhileCasting()
+        {
+            while (isCasting)
+            {
+                if (!playerStats.UseMana(manaCostPerSecond * Time.deltaTime))
+                {
+                    StopCasting();
+                    yield break;
+                }
+                yield return null;
+            }
+        }
+
         public override void StopCasting()
         {
             if (fireVFX != null && isCasting)
@@ -35,9 +49,6 @@ namespace SeaWizard.Weapons
             }
         }
 
-        public override void CastSpell()
-        {
-            // fireStaff doesn't use burst casting so not needed.
-        }
+        public override void CastSpell() { }
     }
 }

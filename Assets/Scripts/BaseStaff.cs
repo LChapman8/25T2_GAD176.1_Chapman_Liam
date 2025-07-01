@@ -4,22 +4,30 @@ namespace SeaWizard.Weapons
 {
     public abstract class BaseStaff : MonoBehaviour
     {
+        [Header("General Settings")]
         [SerializeField] protected float cooldownTime = 2f;
+        [SerializeField] protected float projectileSpeed = 20f;
+        [SerializeField] protected float damage = 10f;
+        [SerializeField] protected float manaCost = 5f;
+
+        [Header("References")]
         [SerializeField] protected Transform castPoint;
         [SerializeField] protected GameObject projectilePrefab;
-        [SerializeField] protected float projectileSpeed = 20f;
 
         protected bool isOnCooldown = false;
+        protected PlayerStats playerStats;
 
         protected virtual void Start()
         {
-            // optional for my derived classes
+            // Find the player to use mana later
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null)
+                playerStats = player.GetComponent<PlayerStats>();
         }
 
-        // function for casting
         protected bool CanCast()
         {
-            return !isOnCooldown;
+            return !isOnCooldown && playerStats != null && playerStats.UseMana(manaCost);
         }
 
         protected void StartCooldown()
@@ -28,7 +36,6 @@ namespace SeaWizard.Weapons
             Invoke(nameof(ResetCooldown), cooldownTime);
         }
 
-        //function for resetting the cooldown timer
         private void ResetCooldown()
         {
             isOnCooldown = false;
@@ -36,8 +43,10 @@ namespace SeaWizard.Weapons
 
         public abstract void CastSpell();
 
-        // optional overrides for my continuous effect spells
         public virtual void StartCasting() { }
         public virtual void StopCasting() { }
+
+        // Optional getter if other systems need the damage value
+        public float GetDamage() => damage;
     }
 }
