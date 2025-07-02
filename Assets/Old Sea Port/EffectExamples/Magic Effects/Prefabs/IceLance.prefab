@@ -4833,7 +4833,6 @@ GameObject:
   - component: {fileID: 198433943929519872}
   - component: {fileID: 199651061282982800}
   - component: {fileID: -7810228057871024298}
-  - component: {fileID: 2906254402591027434}
   m_Layer: 0
   m_Name: IceLance
   m_TagString: Untagged
@@ -9695,29 +9694,6 @@ MonoBehaviour:
   appliesSlow: 1
   slowFactor: 0.5
   slowDuration: 2
---- !u!136 &2906254402591027434
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1820680284854294}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 47.99
-  m_Height: 8.96
-  m_Direction: 1
-  m_Center: {x: -0.016042713, y: 0.0009715557, z: 15.199989}
 --- !u!1 &1877868098342330
 GameObject:
   m_ObjectHideFlags: 0
@@ -9729,6 +9705,8 @@ GameObject:
   - component: {fileID: 4805966615376588}
   - component: {fileID: 198224883181780174}
   - component: {fileID: 199981285287470642}
+  - component: {fileID: 2760425410096621937}
+  - component: {fileID: 1181607711854965323}
   m_Layer: 0
   m_Name: MistTrail
   m_TagString: Untagged
@@ -14555,6 +14533,56 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!54 &2760425410096621937
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1877868098342330}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!136 &1181607711854965323
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1877868098342330}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 27.23
+  m_Height: 235.4
+  m_Direction: 0
+  m_Center: {x: 14.29, y: 0.16211991, z: -0.6337669}
 --- !u!1 &1986018868965718
 GameObject:
   m_ObjectHideFlags: 0
