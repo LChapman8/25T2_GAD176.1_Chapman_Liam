@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
+    //stats for health and mana 
     [Header("Health")]
     public float maxHealth = 100f;
     public float currentHealth;
@@ -9,10 +10,11 @@ public class PlayerStats : MonoBehaviour
     [Header("Mana")]
     public float maxMana = 50f;
     public float currentMana;
-    public float manaRegenRate = 5f;
+    public float manaRegenRate = 2f;
 
     private void Start()
     {
+        // set players current health and mana to max 
         currentHealth = maxHealth;
         currentMana = maxMana;
     }

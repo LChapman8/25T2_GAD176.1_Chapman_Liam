@@ -4,7 +4,7 @@ namespace SeaWizard.Weapons
 {
     public class PoisonStaff : BaseStaff
     {
-
+        // on click casts a puff of poison gas at the cross hairs in the centre of screen and starts the cooldown timer
         public override void CastSpell()
         {
             if (!CanCast()) return;

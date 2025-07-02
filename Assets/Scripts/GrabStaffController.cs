@@ -3,10 +3,11 @@ using SeaWizard.Weapons;
 
 public class PlayerGrabController : MonoBehaviour
 {
+    // transforms for players hand and grab points 
     [Header("References")]
     public Transform grabOrigin;
     public Transform playerHandTransform;
-
+    // variables for range and holding the staff
     [Header("Settings")]
     public float grabRange = 6f;
     public bool holdingStaff = false;

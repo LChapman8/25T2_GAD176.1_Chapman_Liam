@@ -6,6 +6,7 @@ namespace SeaWizard.Enemy
 {
     public abstract class BaseEnemy : MonoBehaviour
     {
+        // the  variables for base enemy stats 
         [Header("Stats")]
         public float maxHealth = 100f;
         public float moveSpeed = 3f;
@@ -23,6 +24,7 @@ namespace SeaWizard.Enemy
         public virtual void TakeDamage(float amount)
         {
             currentHealth -= amount;
+            Debug.Log($"enemy now has {currentHealth} hp");
 
             if (currentHealth <= 0)
                 Die();

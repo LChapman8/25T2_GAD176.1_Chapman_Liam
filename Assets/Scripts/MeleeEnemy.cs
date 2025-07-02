@@ -5,10 +5,11 @@ using SeaWizard.Enemy;
 
 public class MeleeEnemy : BaseEnemy
 {
+    // variables for attacking 
     public float attackRange = 2f;
     public float attackCooldown = 1.5f;
     private float lastAttackTime = 0f;
-
+    // reference to players stats 
     private PlayerStats playerStats;
 
     // get player stats so we can affect them

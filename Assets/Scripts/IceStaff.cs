@@ -4,7 +4,7 @@ namespace SeaWizard.Weapons
 {
     public class IceStaff : BaseStaff
     {
-
+        // on click fires an ice lance at the cross hairs in center screen, also applies dmg and slow amount to the bolt and then resets cooldown
         public override void CastSpell()
         {
             if (!CanCast()) return;
