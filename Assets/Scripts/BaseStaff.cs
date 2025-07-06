@@ -10,8 +10,8 @@ namespace SeaWizard.Weapons
         [SerializeField] protected float projectileSpeed = 20f;
         [SerializeField] protected float damage = 10f;
         [SerializeField] protected float manaCost = 5f;
-        // references for cast point and the projectile 
 
+        // references for cast point and the projectile 
         [Header("References")]
         [SerializeField] protected Transform castPoint;
         [SerializeField] protected GameObject projectilePrefab;

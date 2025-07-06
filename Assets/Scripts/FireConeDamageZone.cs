@@ -4,7 +4,7 @@ using SeaWizard.Enemy;
 public class FireConeDamageZone : MonoBehaviour
 {
     // sets dmg/s
-    public float damagePerSecond = 40f;
+    public float damagePerSecond = 30f;
 
     private void OnTriggerStay(Collider other)
     {
