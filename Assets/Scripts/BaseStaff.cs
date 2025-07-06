@@ -18,6 +18,7 @@ namespace SeaWizard.Weapons
 
         // variable for cooldown and a reference to players stats 
         protected bool isOnCooldown = false;
+        protected bool isOutOfMana = false;
         protected PlayerStats playerStats;
 
         protected virtual void Start()
@@ -53,5 +54,13 @@ namespace SeaWizard.Weapons
 
         // optional getter if other systems need the damage value
         public float GetDamage() => damage;
+
+        public void OutOfMana()
+        {
+            if (playerStats.currentMana == 0)
+            {
+                StopCasting();
+            }
+        }
     }
 }

@@ -9,13 +9,18 @@ namespace SeaWizard.Weapons
         {
             if (!CanCast()) return;
 
-            Camera cam = Camera.main;
-            Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-            Vector3 direction = ray.direction;
+            if (playerStats.currentMana > 20f)
+            {
+                Camera cam = Camera.main;
+                Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+                Vector3 direction = ray.direction;
 
-            Instantiate(projectilePrefab, castPoint.position, Quaternion.LookRotation(direction));
+                Instantiate(projectilePrefab, castPoint.position, Quaternion.LookRotation(direction));
 
-            StartCooldown();
+                playerStats.currentMana = playerStats.currentMana - 20f;
+
+                StartCooldown();
+            }
         }
     }
 }

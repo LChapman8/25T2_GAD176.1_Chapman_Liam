@@ -9,7 +9,7 @@ namespace SeaWizard.Weapons
         // variable for if youre casting and the mana cost per second to cast
         private bool isCasting = false;
 
-        public float manaCostPerSecond = 10f;
+        public float manaCostPerSecond = 20f;
 
         // on start set the VFX to the vfx assigned as the child of castpoint on the staff
         protected override void Start()
@@ -24,9 +24,12 @@ namespace SeaWizard.Weapons
         {
             if (fireVFX != null && !isCasting && playerStats != null)
             {
-                fireVFX.Play();
-                isCasting = true;
-                StartCoroutine(DrainManaWhileCasting());
+                if (playerStats.currentMana > 10)
+                {
+                    fireVFX.Play();
+                    isCasting = true;
+                    StartCoroutine(DrainManaWhileCasting());
+                }
             }
         }
         // while casting is active, actively drain specified mana amount 
