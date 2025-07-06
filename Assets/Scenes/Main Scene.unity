@@ -36248,7 +36248,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 289c8883a367dec419cf8f2d3e39a551, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damagePerSecond: 20
+  damagePerSecond: 40
 --- !u!136 &1421861419
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -45271,7 +45271,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cooldownTime: 2
   projectileSpeed: 20
-  damage: 15
+  damage: 60
   manaCost: 5
   castPoint: {fileID: 392238810}
   projectilePrefab: {fileID: 1634767862067424, guid: 007c57e2df8e9b144b99f471b84f3d56,
