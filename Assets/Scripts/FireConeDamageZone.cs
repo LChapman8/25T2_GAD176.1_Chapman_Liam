@@ -1,5 +1,6 @@
 using UnityEngine;
 using SeaWizard.Enemy;
+using SeaWizard.Weapons;
 
 public class FireConeDamageZone : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class FireConeDamageZone : MonoBehaviour
         BaseEnemy enemy = other.GetComponent<BaseEnemy>();
         if (enemy != null)
         {
-            enemy.TakeDamage(damagePerSecond * Time.deltaTime);
+           enemy.TakeDamage(damagePerSecond * Time.deltaTime);
         }
     }
 }

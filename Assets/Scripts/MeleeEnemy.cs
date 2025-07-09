@@ -60,7 +60,7 @@ public class MeleeEnemy : BaseEnemy
         float distance = directionToPlayer.magnitude;
         directionToPlayer.Normalize();
 
-        // 1. FOV angle check
+        // angle check to make sure its in detection angle
         float angle = Vector3.Angle(transform.forward, directionToPlayer);
         Debug.Log($" Distance: {distance},  Angle: {angle}");
 
@@ -76,7 +76,7 @@ public class MeleeEnemy : BaseEnemy
             return false;
         }
 
-        // 2. Raycast (line of sight)
+        // raycasting to see if im hitting thep players collider
         Vector3 rayOrigin = transform.position + Vector3.up * 1.5f;
         Debug.DrawRay(rayOrigin, directionToPlayer * detectionRange, Color.red);
 
