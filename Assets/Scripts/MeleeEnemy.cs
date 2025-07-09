@@ -12,98 +12,122 @@ public class MeleeEnemy : BaseEnemy
     public float attackCooldown = 1.5f;
     private float lastAttackTime = 0f;
 
+    [Header("Wander")]
+    public float wanderRadius = 5f;
+    public float wanderInterval = 3f;
+    private float wanderTimer = 0f;
+    private Vector3 wanderTarget;
+
+    [Header("Fleeing")]
+    public float fleeThreshold = 20f; // HP threshold to flee
+    public float fleeDistance = 8f;
+
     private PlayerStats playerStats;
     private bool playerDetected = false;
 
     protected override void Start()
     {
         base.Start();
+
         if (player != null)
         {
             playerStats = player.GetComponent<PlayerStats>();
         }
+
+        wanderTimer = wanderInterval;
+        wanderTarget = transform.position;
     }
 
     protected override void UpdateBehavior()
     {
         if (!player) return;
 
+        // If health low, flee
+        if (currentHealth <= fleeThreshold)
+        {
+            FleeFromPlayer();
+            return;
+        }
+
+        // Check for player
         playerDetected = CanSeePlayer();
-        if (!playerDetected) return;
-
-        float distance = Vector3.Distance(transform.position, player.position);
-
-        if (distance > attackRange)
+        if (playerDetected)
         {
-            transform.position = Vector3.MoveTowards(transform.position, player.position, moveSpeed * Time.deltaTime);
-            transform.LookAt(player);
-        }
-        else
-        {
-            if (Time.time - lastAttackTime > attackCooldown)
+            float distance = Vector3.Distance(transform.position, player.position);
+
+            if (distance > attackRange)
             {
-                lastAttackTime = Time.time;
-                PerformMeleeAttack();
+                // Chase player
+                transform.position = Vector3.MoveTowards(transform.position, player.position, moveSpeed * Time.deltaTime);
+                transform.LookAt(player);
             }
+            else
+            {
+                // Attack if cooldown passed
+                if (Time.time - lastAttackTime > attackCooldown)
+                {
+                    lastAttackTime = Time.time;
+                    PerformMeleeAttack();
+                }
+            }
+
+            return;
         }
+
+        // If no player in sight, wander
+        Wander();
+    }
+
+    void Wander()
+    {
+        wanderTimer -= Time.deltaTime;
+
+        if (wanderTimer <= 0f)
+        {
+            // Pick a new random spot around the enemy
+            Vector2 randomCircle = Random.insideUnitCircle * wanderRadius;
+            Vector3 newTarget = new Vector3(transform.position.x + randomCircle.x, transform.position.y, transform.position.z + randomCircle.y);
+            wanderTarget = newTarget;
+            wanderTimer = wanderInterval;
+        }
+
+        transform.position = Vector3.MoveTowards(transform.position, wanderTarget, moveSpeed * 0.5f * Time.deltaTime);
+        Vector3 direction = wanderTarget - transform.position;
+        if (direction.magnitude > 0.1f)
+        {
+            transform.rotation = Quaternion.LookRotation(direction);
+        }
+    }
+
+    void FleeFromPlayer()
+    {
+        Vector3 fleeDirection = (transform.position - player.position).normalized;
+        Vector3 fleeTarget = transform.position + fleeDirection * fleeDistance;
+
+        transform.position = Vector3.MoveTowards(transform.position, fleeTarget, moveSpeed * Time.deltaTime);
+        transform.rotation = Quaternion.LookRotation(fleeDirection);
     }
 
     private bool CanSeePlayer()
     {
-        if (!player)
-        {
-            Debug.Log(" Player reference is missing.");
-            return false;
-        }
+        if (!player) return false;
 
         Vector3 directionToPlayer = player.position - transform.position;
         float distance = directionToPlayer.magnitude;
         directionToPlayer.Normalize();
 
-        // angle check to make sure its in detection angle
         float angle = Vector3.Angle(transform.forward, directionToPlayer);
-        Debug.Log($" Distance: {distance},  Angle: {angle}");
-
-        if (distance > detectionRange)
-        {
-            Debug.Log(" Player is out of detection range.");
+        if (distance > detectionRange || angle > fieldOfView * 0.5f)
             return false;
-        }
 
-        if (angle > fieldOfView * 0.5f)
-        {
-            Debug.Log(" Player is outside field of view.");
-            return false;
-        }
-
-        // raycasting to see if im hitting thep players collider
         Vector3 rayOrigin = transform.position + Vector3.up * 1.5f;
-        Debug.DrawRay(rayOrigin, directionToPlayer * detectionRange, Color.red);
-
         if (Physics.Raycast(rayOrigin, directionToPlayer, out RaycastHit hit, detectionRange))
         {
-            Debug.Log(" Raycast hit: " + hit.collider.name);
-
-            if (hit.collider.CompareTag("Player"))
-            {
-                Debug.Log(" Line of sight to player confirmed!");
-                return true;
-            }
-            else
-            {
-                Debug.Log(" Line of sight blocked by: " + hit.collider.name);
-            }
-        }
-        else
-        {
-            Debug.Log(" Raycast didn't hit anything.");
+            return hit.collider.CompareTag("Player");
         }
 
         return false;
     }
-
- 
-
 
     void PerformMeleeAttack()
     {
@@ -111,6 +135,7 @@ public class MeleeEnemy : BaseEnemy
         if (playerStats != null)
         {
             playerStats.TakeDamage(attackDamage);
+            Debug.Log($"Player took {attackDamage} damage");
         }
     }
 

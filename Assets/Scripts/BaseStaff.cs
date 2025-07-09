@@ -9,7 +9,7 @@ namespace SeaWizard.Weapons
         [SerializeField] protected float cooldownTime = 2f;
         [SerializeField] protected float projectileSpeed = 20f;
         [SerializeField] protected float damage = 10f;
-        [SerializeField] protected float manaCost = 5f;
+        [SerializeField] public float manaCost = 5f;
 
         // references for cast point and the projectile 
         [Header("References")]
@@ -17,7 +17,7 @@ namespace SeaWizard.Weapons
         [SerializeField] protected GameObject projectilePrefab;
 
         // variable for cooldown and a reference to players stats 
-        protected bool isOnCooldown = false;
+        public bool isOnCooldown = false;
         protected bool isOutOfMana = false;
         protected PlayerStats playerStats;
 
@@ -30,7 +30,7 @@ namespace SeaWizard.Weapons
         }
 
         // a function to say casting is available 
-        protected bool CanCast()
+        protected virtual bool CanCast()
         {
             return !isOnCooldown && playerStats != null && playerStats.UseMana(manaCost);
         }

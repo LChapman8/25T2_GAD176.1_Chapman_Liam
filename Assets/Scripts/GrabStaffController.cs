@@ -3,18 +3,19 @@ using SeaWizard.Weapons;
 
 public class PlayerGrabController : MonoBehaviour
 {
-    // transforms for players hand and grab points 
     [Header("References")]
     public Transform grabOrigin;
     public Transform playerHandTransform;
-    // variables for range and holding the staff
+
     [Header("Settings")]
     public float grabRange = 6f;
     public bool holdingStaff = false;
 
+    [Tooltip("Layers that can be grabbed (e.g. Default, Interactable). Exclude Player layer.")]
+    [SerializeField] private LayerMask interactableMask;
+
     private BaseStaff currentStaff;
 
-    // logic for grabbing the staff with functions
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))
@@ -27,11 +28,9 @@ public class PlayerGrabController : MonoBehaviour
 
         if (holdingStaff && currentStaff != null)
         {
-            // single click logic for ice staff bolts / Poison cloud
             if (Input.GetMouseButtonDown(0))
                 currentStaff.CastSpell();
 
-            // hold down casting for continual casting (flame thrower spell)
             if (Input.GetMouseButton(0))
                 currentStaff.StartCasting();
 
@@ -40,23 +39,28 @@ public class PlayerGrabController : MonoBehaviour
         }
     }
 
-    // function with logic for attempting to grab a staff using ray casting
     void TryGrabStaff()
     {
         Camera cam = Camera.main;
         Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         Debug.DrawRay(ray.origin, ray.direction * grabRange, Color.green, 1f);
 
-        if (Physics.Raycast(ray, out RaycastHit hit, grabRange))
+        if (Physics.Raycast(ray, out RaycastHit hit, grabRange, interactableMask))
         {
+            Debug.Log($"Raycast hit: {hit.collider.name} on layer {LayerMask.LayerToName(hit.collider.gameObject.layer)} with tag {hit.collider.tag}");
+
             if (hit.collider.CompareTag("Staff"))
             {
                 GrabStaff(hit.collider.gameObject);
                 holdingStaff = true;
             }
         }
+        else
+        {
+            Debug.Log("Raycast did not hit anything interactable.");
+        }
     }
-    // function with logic for what happens when grab stuff is run
+
     void GrabStaff(GameObject staffObject)
     {
         DropCurrentStaff();
@@ -78,7 +82,7 @@ public class PlayerGrabController : MonoBehaviour
 
         currentStaff = staffObject.GetComponent<BaseStaff>();
     }
-    // function for dropping current staff
+
     void DropCurrentStaff()
     {
         if (currentStaff != null)
@@ -97,7 +101,7 @@ public class PlayerGrabController : MonoBehaviour
             currentStaff.transform.SetParent(null);
             currentStaff.transform.position = grabOrigin.position + grabOrigin.forward * 1.5f;
 
-            currentStaff.StopCasting(); // Safety
+            currentStaff.StopCasting();
             currentStaff = null;
             holdingStaff = false;
         }
