@@ -1,15 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class WaterKillBox : MonoBehaviour
 {
-    void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
-            Destroy(other.gameObject);
+            PlayerStats stats = other.GetComponent<PlayerStats>();
+            if (stats != null)
+            {
+                stats.TakeDamage(100f); // Or stats.TakeDamage(stats.maxHealth);
+            }
         }
     }
 }
