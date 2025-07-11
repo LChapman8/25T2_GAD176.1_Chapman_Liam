@@ -10,9 +10,9 @@ public class StaffProjectile : MonoBehaviour
 
     public void SetDamage(float dmg) => damage = dmg;
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        var enemy = collision.collider.GetComponent<BaseEnemy>();
+        var enemy = other.GetComponent<BaseEnemy>();
         if (enemy != null)
         {
             enemy.TakeDamage(damage);
@@ -27,4 +27,5 @@ public class StaffProjectile : MonoBehaviour
 
         Destroy(gameObject);
     }
+
 }

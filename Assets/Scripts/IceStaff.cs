@@ -15,6 +15,13 @@ namespace SeaWizard.Weapons
 
             GameObject projectile = Instantiate(projectilePrefab, castPoint.position, Quaternion.LookRotation(direction));
 
+            // Apply velocity
+            Rigidbody rb = projectile.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.velocity = direction * projectileSpeed;
+            }
+
             var proj = projectile.GetComponent<StaffProjectile>();
             if (proj != null)
             {
