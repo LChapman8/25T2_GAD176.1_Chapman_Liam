@@ -3,19 +3,21 @@ using SeaWizard.Weapons;
 
 public class PlayerGrabController : MonoBehaviour
 {
+    // references to the grab origin and the players hand where the staff goes 
     [Header("References")]
     public Transform grabOrigin;
     public Transform playerHandTransform;
-
+    // variables for the range and if the players holding a staff 
     [Header("Settings")]
     public float grabRange = 6f;
     public bool holdingStaff = false;
-
+    // a layer mask list that allows you to pick which layers are grabable 
     [Tooltip("Layers that can be grabbed (e.g. Default, Interactable). Exclude Player layer.")]
     [SerializeField] private LayerMask interactableMask;
-
+    // a reference to the bass staff linking to the current
     private BaseStaff currentStaff;
 
+    // on update if the player presses "E" try to grab a staff or drop one if they already have one
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))
@@ -38,7 +40,7 @@ public class PlayerGrabController : MonoBehaviour
                 currentStaff.StopCasting();
         }
     }
-
+    // a function that uses raycasting to centre screen to try and detect if a staff thats grabbable is in range 
     void TryGrabStaff()
     {
         Camera cam = Camera.main;
@@ -60,7 +62,7 @@ public class PlayerGrabController : MonoBehaviour
             Debug.Log("Raycast did not hit anything interactable.");
         }
     }
-
+    // a function to pick up the object, moving to a child of the players hand. 
     void GrabStaff(GameObject staffObject)
     {
         DropCurrentStaff();
@@ -82,7 +84,7 @@ public class PlayerGrabController : MonoBehaviour
 
         currentStaff = staffObject.GetComponent<BaseStaff>();
     }
-
+    // a function for dropping a currently held staff and removing it as a child 
     void DropCurrentStaff()
     {
         if (currentStaff != null)

@@ -7,15 +7,17 @@ namespace SeaWizard.Enemy
 {
     public abstract class BaseEnemy : MonoBehaviour
     {
+        // variables for stats 
         [Header("Stats")]
         public float maxHealth = 100f;
         public float moveSpeed = 3f;
-
-        protected Transform player;
         protected float currentHealth;
-
+        // gets the transform for the player
+        protected Transform player;
+        
+        // UI for health bar 
         [Header("Health Bar")]
-        public GameObject healthBarPrefab;    // Assign this prefab in the Inspector
+        public GameObject healthBarPrefab;
         private EnemyHealthBar healthBar;
 
         // sets current hp to max hp, finds the player and spawns health bar
@@ -45,7 +47,7 @@ namespace SeaWizard.Enemy
             if (currentHealth <= 0)
                 Die();
         }
-
+        // a function that kills the enemy when they hit 0 HP 
         protected virtual void Die()
         {
             Destroy(healthBar.gameObject);

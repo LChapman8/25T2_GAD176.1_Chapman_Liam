@@ -21,9 +21,9 @@ namespace SeaWizard.Weapons
         protected bool isOutOfMana = false;
         protected PlayerStats playerStats;
 
+        // find the player to use mana klater on 
         protected virtual void Start()
         {
-            // Find the player to use mana later
             GameObject player = GameObject.FindGameObjectWithTag("Player");
             if (player != null)
                 playerStats = player.GetComponent<PlayerStats>();
@@ -47,6 +47,7 @@ namespace SeaWizard.Weapons
             isOnCooldown = false;
         }
 
+        // the functions my spells need to be able to cast 
         public abstract void CastSpell();
 
         public virtual void StartCasting() { }
@@ -55,6 +56,7 @@ namespace SeaWizard.Weapons
         // optional getter if other systems need the damage value
         public float GetDamage() => damage;
 
+        // function for being out of mana and stop casting
         public void OutOfMana()
         {
             if (playerStats.currentMana == 0)

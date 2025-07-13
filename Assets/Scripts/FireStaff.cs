@@ -8,7 +8,7 @@ namespace SeaWizard.Weapons
         private ParticleSystem fireVFX;
         // variable for if youre casting and the mana cost per second to cast
         private bool isCasting = false;
-
+        // sets the mana cost per second
         public float manaCostPerSecond = 20f;
 
         // on start set the VFX to the vfx assigned as the child of castpoint on the staff
@@ -54,7 +54,7 @@ namespace SeaWizard.Weapons
                 isCasting = false;
             }
         }
-
+        // needed to be declared but un-used on this spell 
         public override void CastSpell() { }
     }
 }

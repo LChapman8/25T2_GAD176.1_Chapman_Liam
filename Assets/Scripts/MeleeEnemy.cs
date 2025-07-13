@@ -3,6 +3,7 @@ using SeaWizard.Enemy;
 
 public class MeleeEnemy : BaseEnemy
 {
+    // An assorted collection of variables across 4 catergories (detection, attack, wander and fleeing)
     [Header("Detection")]
     public float detectionRange = 10f;
     public float fieldOfView = 120f;
@@ -25,6 +26,7 @@ public class MeleeEnemy : BaseEnemy
     private PlayerStats playerStats;
     private bool playerDetected = false;
 
+    // on start get reference to the players stats and set wander variables 
     protected override void Start()
     {
         base.Start();
@@ -37,19 +39,20 @@ public class MeleeEnemy : BaseEnemy
         wanderTimer = wanderInterval;
         wanderTarget = transform.position;
     }
-
+    // a function to update behaviours, for the melee enemy its to wander until the player enters detection range
+    // then chase them down until theyre in attack range and attack them, when it hits 20HP, run away from the player
     protected override void UpdateBehavior()
     {
         if (!player) return;
 
-        // If health low, flee
+        
         if (currentHealth <= fleeThreshold)
         {
             FleeFromPlayer();
             return;
         }
 
-        // Check for player
+        
         playerDetected = CanSeePlayer();
         if (playerDetected)
         {
@@ -57,13 +60,13 @@ public class MeleeEnemy : BaseEnemy
 
             if (distance > attackRange)
             {
-                // Chase player
+                
                 transform.position = Vector3.MoveTowards(transform.position, player.position, moveSpeed * Time.deltaTime);
                 transform.LookAt(player);
             }
             else
             {
-                // Attack if cooldown passed
+                
                 if (Time.time - lastAttackTime > attackCooldown)
                 {
                     lastAttackTime = Time.time;
@@ -74,17 +77,16 @@ public class MeleeEnemy : BaseEnemy
             return;
         }
 
-        // If no player in sight, wander
+       
         Wander();
     }
-
+    // a function for wandering around when not in combat 
     void Wander()
     {
         wanderTimer -= Time.deltaTime;
 
         if (wanderTimer <= 0f)
         {
-            // Pick a new random spot around the enemy
             Vector2 randomCircle = Random.insideUnitCircle * wanderRadius;
             Vector3 newTarget = new Vector3(transform.position.x + randomCircle.x, transform.position.y, transform.position.z + randomCircle.y);
             wanderTarget = newTarget;
@@ -98,7 +100,7 @@ public class MeleeEnemy : BaseEnemy
             transform.rotation = Quaternion.LookRotation(direction);
         }
     }
-
+    // a function for fleeing from the player when at 20HP
     void FleeFromPlayer()
     {
         Vector3 fleeDirection = (transform.position - player.position).normalized;
@@ -107,7 +109,7 @@ public class MeleeEnemy : BaseEnemy
         transform.position = Vector3.MoveTowards(transform.position, fleeTarget, moveSpeed * Time.deltaTime);
         transform.rotation = Quaternion.LookRotation(fleeDirection);
     }
-
+    // a function for detecting the player using raycasting 
     private bool CanSeePlayer()
     {
         if (!player) return false;
@@ -128,7 +130,7 @@ public class MeleeEnemy : BaseEnemy
 
         return false;
     }
-
+    // a function for performing a melee attack when in attack range 
     void PerformMeleeAttack()
     {
         float attackDamage = Random.Range(5f, 11f);
@@ -138,7 +140,7 @@ public class MeleeEnemy : BaseEnemy
             Debug.Log($"Player took {attackDamage} damage");
         }
     }
-
+    // visualisations of my raycasting for testing purposes/debugging 
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;

@@ -2,16 +2,16 @@ using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
-    // stats for health and mana 
+    // stats for health
     [Header("Health")]
     public float maxHealth = 100f;
     public float currentHealth;
-
+    // stats for mana
     [Header("Mana")]
     public float maxMana = 50f;
     public float currentMana;
     public float manaRegenRate = 2f;
-
+    // variables for respawning 
     [Header("Respawn")]
     public float respawnDelay = 2f;
 
@@ -20,6 +20,7 @@ public class PlayerStats : MonoBehaviour
     private Animator animator;
     private bool isDead = false;
 
+    // on start set health and mana to max, get reference to the character controller  and set respawn point 
     private void Start()
     {
         currentHealth = maxHealth;
@@ -27,15 +28,15 @@ public class PlayerStats : MonoBehaviour
 
         characterController = GetComponent<CharacterController>();
 
-        // Set initial respawn point to starting position
+        // Set the spawn point to starting position
         respawnPoint = transform.position;
     }
-
+    // on update, regen mana 
     private void Update()
     {
         RegenerateMana();
     }
-
+    // a function to regen mana based on time 
     private void RegenerateMana()
     {
         if (currentMana < maxMana)
@@ -44,7 +45,7 @@ public class PlayerStats : MonoBehaviour
             currentMana = Mathf.Min(currentMana, maxMana);
         }
     }
-
+    // a function for taking damage 
     public void TakeDamage(float amount)
     {
         currentHealth -= amount;
@@ -53,7 +54,7 @@ public class PlayerStats : MonoBehaviour
             Die();
         }
     }
-
+    // a function for using mana 
     public bool UseMana(float amount)
     {
         if (currentMana >= amount)
@@ -63,7 +64,7 @@ public class PlayerStats : MonoBehaviour
         }
         return false;
     }
-
+    // a function that kills the player if they reach 0 currentHealth
     private void Die()
     {
         Debug.Log("Player died!");
@@ -73,14 +74,14 @@ public class PlayerStats : MonoBehaviour
         }
        
 
-        // Disable controls if needed
+        // Disable controls so they cant move while dead
         var grabController = GetComponent<PlayerGrabController>();
         if (grabController != null) grabController.enabled = false;
 
-        // Start respawn
+        // starts respawning the player after a set delay 
         Invoke(nameof(Respawn), respawnDelay);
     }
-
+    // a function that respawns the player and resets their stats and reenables their controls 
     private void Respawn()
     {
         currentHealth = maxHealth;
@@ -103,11 +104,5 @@ public class PlayerStats : MonoBehaviour
         if (grabController != null) grabController.enabled = true;
 
         Debug.Log("Player respawned!");
-    }
-
-    // Optional: Call this from a checkpoint system to update the respawn point
-    public void SetRespawnPoint(Vector3 newPoint)
-    {
-        respawnPoint = newPoint;
     }
 }

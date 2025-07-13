@@ -5,6 +5,7 @@ namespace SeaWizard.Enemy
 {
     public class RangedEnemy : BaseEnemy
     {
+        // An assorted collection of variables across 4 catergories (mana, references, settings and wandering) 
         [Header("Mana Stats")]
         public float maxMana = 30f;
         public float currentMana;
@@ -29,6 +30,7 @@ namespace SeaWizard.Enemy
         private float wanderTimer = 0f;
         private Vector3 wanderTarget;
 
+        // on start, set mana to max, set staff to the equipt staff, set the target as the players position and set the wander varibles
         protected override void Start()
         {
             base.Start();
@@ -44,6 +46,8 @@ namespace SeaWizard.Enemy
             wanderTarget = transform.position;
         }
 
+        // a function that controls the ranged enemy behaviours which is wander until player enters detection range, then run to attack range and cast spells on cooldown
+        // if attacked, run away from the player a set distance, then continue attacking.
         protected override void UpdateBehavior()
         {
             if (currentHealth <= 0)
@@ -91,6 +95,7 @@ namespace SeaWizard.Enemy
             }
         }
 
+        //a function for regening mana based on time 
         private void RegenerateMana()
         {
             if (currentMana < maxMana)
@@ -99,35 +104,35 @@ namespace SeaWizard.Enemy
                 currentMana = Mathf.Min(currentMana, maxMana);
             }
         }
-
+        // a function for allowing spells to be cast
         private bool CanCastSpell()
         {
             return currentMana >= staff.manaCost && !staff.isOnCooldown;
         }
-
+        //a function for using mana
         private void UseMana(float amount)
         {
             currentMana -= amount;
         }
-
+        // a function for moving towards towards a destination 
         private void MoveTowards(Vector3 destination)
         {
             transform.position = Vector3.MoveTowards(transform.position, destination, moveSpeed * Time.deltaTime);
             FaceDirection(destination - transform.position);
         }
-
+        // a function for moving to the target 
         private void MoveToTarget()
         {
             MoveTowards(targetPosition);
         }
-
+        // a function for making sure youre facing the player
         private void FacePlayer()
         {
             Vector3 direction = (player.position - transform.position).normalized;
             direction.y = 0;
             FaceDirection(direction);
         }
-
+        // a function for changing the facing direction 
         private void FaceDirection(Vector3 direction)
         {
             if (direction.sqrMagnitude < 0.001f)
@@ -136,7 +141,7 @@ namespace SeaWizard.Enemy
             Quaternion targetRotation = Quaternion.LookRotation(direction);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
         }
-
+        // a function for wandering when not in combat 
         private void Wander()
         {
             wanderTimer -= Time.deltaTime;
@@ -156,7 +161,7 @@ namespace SeaWizard.Enemy
                 FaceDirection(direction);
             }
         }
-
+        // a function that uses raycasting to track the player and set a detection zone 
         private bool CanSeePlayer()
         {
             if (!player) return false;
@@ -165,8 +170,8 @@ namespace SeaWizard.Enemy
             float distance = directionToPlayer.magnitude;
             directionToPlayer.Normalize();
 
-            float detectionRange = 15f; // Adjust detection range as needed
-            float fieldOfView = 120f;   // Adjust FOV as needed
+            float detectionRange = 15f; 
+            float fieldOfView = 120f;   
 
             if (distance > detectionRange)
                 return false;
@@ -183,7 +188,7 @@ namespace SeaWizard.Enemy
 
             return false;
         }
-
+        // a function for taking damage 
         public override void TakeDamage(float amount)
         {
             base.TakeDamage(amount);
@@ -191,7 +196,7 @@ namespace SeaWizard.Enemy
             if (currentHealth > 0)
                 Reposition();
         }
-
+        // a function for repositioning after taking damage 
         private void Reposition()
         {
             Vector3 directionAwayFromPlayer = (transform.position - player.position).normalized;

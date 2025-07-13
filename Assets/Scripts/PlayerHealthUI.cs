@@ -3,8 +3,9 @@ using UnityEngine.UI;
 
 public class PlayerHealthUI : MonoBehaviour
 {
-    public Slider healthSlider; // Assign in Inspector
-    public PlayerStats playerStats; // Assign in Inspector
+    // updates the health bar UI visual based on the players health
+    public Slider healthSlider; 
+    public PlayerStats playerStats; 
 
     void Update()
     {

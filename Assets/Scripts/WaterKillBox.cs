@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class WaterKillBox : MonoBehaviour
 {
+    // A function so when the player hits the water (out of bounds area) they die immediantly
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -9,7 +10,7 @@ public class WaterKillBox : MonoBehaviour
             PlayerStats stats = other.GetComponent<PlayerStats>();
             if (stats != null)
             {
-                stats.TakeDamage(100f); // Or stats.TakeDamage(stats.maxHealth);
+                stats.TakeDamage(100f);
             }
         }
     }

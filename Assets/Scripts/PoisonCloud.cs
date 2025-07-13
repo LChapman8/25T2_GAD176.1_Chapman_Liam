@@ -12,7 +12,7 @@ public class PoisonCloud : MonoBehaviour
         Destroy(gameObject, duration);
     }
 
-    // if an enemy is in the cloud they take damage/s
+    // a function for dealing dmg/s when inside the cloud 
     private void OnTriggerStay(Collider other)
     {
         BaseEnemy enemy = other.GetComponent<BaseEnemy>();

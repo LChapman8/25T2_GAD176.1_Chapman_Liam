@@ -5,10 +5,11 @@ namespace SeaWizard.Weapons
 {
     public class EnemyStaff : BaseStaff
     {
+        // transform for player and the staffs user
         private Transform player;
         private RangedEnemy rangedEnemy;
         
-
+        // on start, find the players location and then get the stats from ranged enemy
         protected override void Start()
         {
             base.Start();
@@ -20,13 +21,12 @@ namespace SeaWizard.Weapons
             // Instead of EnemyStats, get RangedEnemy component from parent
             rangedEnemy = GetComponentInParent<RangedEnemy>();
         }
-
+        // a function to check if the ranged enemy is able to cast
         protected override bool CanCast()
         {
-            // Check mana on RangedEnemy and cooldown
             return !isOnCooldown && rangedEnemy != null && rangedEnemy.currentMana >= manaCost;
         }
-
+        // a function for casting at the players position
         public override void CastSpell()
         {
             if (!CanCast())
@@ -35,7 +35,7 @@ namespace SeaWizard.Weapons
             if (player == null)
                 return;
 
-            Vector3 targetPos = player.position + Vector3.up * 1.5f; // aim higher on player
+            Vector3 targetPos = player.position + Vector3.up * 1.5f;
             Vector3 direction = (targetPos - castPoint.position).normalized;
 
             GameObject projectile = Instantiate(projectilePrefab, castPoint.position, Quaternion.LookRotation(direction));
